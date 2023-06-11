@@ -82,7 +82,7 @@ public class Main {
 		var listaMax = Lista.max(miLista);
 		System.out.println(listaMax);
 		
-		
+		System.out.println("dom");
 
 		
 		
