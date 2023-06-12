@@ -1,5 +1,7 @@
 package com.funcional;
 
+import java.util.function.Function;
+
 import com.funcional.lista.Lista;
 
 public class Main {
@@ -85,6 +87,14 @@ public class Main {
 		System.out.println("dom");
 		System.out.println("nuev");
 
+		
+		Function<Integer, Integer> f = x -> 3*x;
+		Function<Integer, Integer> g = x -> x*x;
+		Function< Function<Integer, Integer>,   Function< Function<Integer,Integer>, Function<Integer,Integer> >> comp = f1 -> g1 -> x -> g.apply(f.apply(x));
+		
+		System.out.println("Lunes");
+		Function<Integer, Integer> fg =  comp.apply(f).apply(g);
+		System.out.println(fg.apply(2));
 		
 		
 		
