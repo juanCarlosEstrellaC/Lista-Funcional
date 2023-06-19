@@ -1,0 +1,75 @@
+package func;
+
+import java.util.function.Function;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		// ----------------------------- MODELIZACION DE FUNCIONES DE R^n -> R ----------------------------------
+//		// R -> R : F<I,I> f1
+//		Function<Integer, Integer> f1 = x -> x + 1;
+//		Integer a = f1.apply(3);
+//		System.out.println(a);
+//
+//		// R^2 -> R: F<I,F<I,I>> f2
+//		Function<Integer, Function<Integer, Integer>> f2 = x -> y -> x + y;
+//		Integer b = f2.apply(3).apply(2);
+//		System.out.println(b);
+//
+//		// R^3 -> R: F<I,F<I,F<I,I>>> f3
+//		Function<Integer, Function<Integer, Function<Integer, Integer>>> f3 = x -> y -> z -> x + y + z;
+//		Integer c = f3.apply(3).apply(2).apply(4);
+//		System.out.println(c);
+//
+		// --------------------------  MODELIZACION DE COMPOSICIÓN DE FUNCIONES gof = g(f(x)) ---------------------
+
+		Function<Integer, Integer> f = x -> 3 * x;
+		Function<Integer, Integer> g = x -> x * x;
+		
+		// 1. Usando la interface funcional Function:
+			/* Así sería como normalmente he usado:
+			 
+			 	 F< I , I> sumarUno
+		 		 F< Dominio, Rango> sumarUno
+		 		 
+				 Function<Integer, Integer> sumarUno = x -> x+1;
+				 var v = sumarUno.apply(5);
+				 System.out.println(v);
+			
+				Pero, en esta ocasión, el Function es de esta manera:
+			    	
+			    	F< F<I,I> , F<F<I,I>,F<I,I>>> compo
+		 		    F< Dominio,       Rango     > compo
+			 */
+		
+			Function<Function<Integer, Integer>, Function<Function<Integer, Integer>, Function<Integer, Integer>>> compo = fn -> (gn -> x -> gn.apply(fn.apply(x)));
+			Integer d = compo.apply(f).apply(g).apply(2);
+			System.out.println(d);
+
+
+		
+		// USANDO INTERFACES:
+		IComposicion iComposicion = () -> fn -> (gn -> x -> gn.apply(fn.apply(x)));
+		var funcionCompuesta = iComposicion.composicion();
+		var fog = funcionCompuesta.apply(f).apply(g).apply(2);
+		System.out.println("fog = f(g(x)) = "+fog);
+		
+		var funcionCompuesta2 = IComposicion.composicion2();
+		var fog2 = funcionCompuesta2.apply(f).apply(g).apply(2);
+		System.out.println("fog2 = f(g(x)) = "+fog2);
+		
+		var funcionCompuesta3 = IComposicion.composicion3(g, f);
+		var fog3 = funcionCompuesta3.apply(2);
+		System.out.println("fog3 = f(g(x)) = "+fog3);
+		
+		System.out.println("Lunes:");
+		var funcionCompuesta4 = IComposicion.composicion4(g, f);
+		var fog4 = funcionCompuesta4.apply(2);
+		System.out.println("fog3 = f(g(x)) = "+fog4);
+		
+		
+
+	}
+
+}

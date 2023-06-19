@@ -1,0 +1,25 @@
+package func;
+
+import java.util.function.Function;
+
+public interface  IComposicion <T>  {
+
+	Function<Function<Integer, Integer>, Function<Function<Integer, Integer>, Function<Integer, Integer>>> composicion();
+
+	static Function<Function<Integer, Integer>, Function<Function<Integer, Integer>, Function<Integer, Integer>>> composicion2() {
+		return fn -> (gn -> x -> gn.apply(fn.apply(x)));
+	}
+
+	static Function<Integer, Integer> composicion3(Function<Integer, Integer> f, Function<Integer, Integer> g) {
+		return x -> f.apply(g.apply(x));
+	}
+	
+	// LUNES:
+	static <T> Function<T, T> composicion4(Function<T, T>  f, Function<T, T>  g) {
+		return x -> f.apply(g.apply(x));
+	}
+	
+	static <T> Function<Function<T, T>, Function<Function<T, T>, Function<T, T>>> composicion5() {
+		return fn -> (gn -> x -> gn.apply(fn.apply(x)));
+	}
+}
